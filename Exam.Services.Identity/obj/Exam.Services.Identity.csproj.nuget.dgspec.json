@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\hclun\\Documents\\[X] Projects\\services-identity\\Exam.Services.Identity\\Exam.Services.Identity\\Exam.Services.Identity.csproj": {}
+    "C:\\Users\\hclun\\Documents\\[X] Projects\\services-identity\\Exam.Services.Identity\\Exam.Services.Identity.csproj": {}
   },
   "projects": {
-    "C:\\Users\\hclun\\Documents\\[X] Projects\\services-identity\\Exam.Services.Identity\\Exam.Services.Identity\\Exam.Services.Identity.csproj": {
+    "C:\\Users\\hclun\\Documents\\[X] Projects\\services-identity\\Exam.Services.Identity\\Exam.Services.Identity.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\hclun\\Documents\\[X] Projects\\services-identity\\Exam.Services.Identity\\Exam.Services.Identity\\Exam.Services.Identity.csproj",
+        "projectUniqueName": "C:\\Users\\hclun\\Documents\\[X] Projects\\services-identity\\Exam.Services.Identity\\Exam.Services.Identity.csproj",
         "projectName": "Exam.Services.Identity",
-        "projectPath": "C:\\Users\\hclun\\Documents\\[X] Projects\\services-identity\\Exam.Services.Identity\\Exam.Services.Identity\\Exam.Services.Identity.csproj",
+        "projectPath": "C:\\Users\\hclun\\Documents\\[X] Projects\\services-identity\\Exam.Services.Identity\\Exam.Services.Identity.csproj",
         "packagesPath": "C:\\Users\\hclun\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\hclun\\Documents\\[X] Projects\\services-identity\\Exam.Services.Identity\\Exam.Services.Identity\\obj\\",
+        "outputPath": "C:\\Users\\hclun\\Documents\\[X] Projects\\services-identity\\Exam.Services.Identity\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\hclun\\AppData\\Roaming\\NuGet\\NuGet.Config",

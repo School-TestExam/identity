@@ -1,10 +1,18 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\hclun\\Documents\\[X] Projects\\services-identity\\Exam.Services.Identity\\",
+  "WorkspaceRootPath": "C:\\Users\\hclun\\Documents\\[X] Projects\\services-identity\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{82F89B1A-00D2-470C-921A-E0C1EF814D20}|Exam.Services.Identity\\Exam.Services.Identity.csproj|c:\\users\\hclun\\documents\\[x] projects\\services-identity\\exam.services.identity\\exam.services.identity\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{82F89B1A-00D2-470C-921A-E0C1EF814D20}|Exam.Services.Identity\\Exam.Services.Identity.csproj|c:\\users\\hclun\\documents\\[x] projects\\services-identity\\exam.services.identity\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{82F89B1A-00D2-470C-921A-E0C1EF814D20}|Exam.Services.Identity\\Exam.Services.Identity.csproj|solutionrelative:exam.services.identity\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A04A32D1-1CD0-4DB3-AA20-AF717E4AE43A}|Exam.Services.Identity.UnitTest\\Exam.Services.Identity.UnitTests.csproj|c:\\users\\hclun\\documents\\[x] projects\\services-identity\\exam.services.identity.unittest\\testbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A04A32D1-1CD0-4DB3-AA20-AF717E4AE43A}|Exam.Services.Identity.UnitTest\\Exam.Services.Identity.UnitTests.csproj|solutionrelative:exam.services.identity.unittest\\testbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFAD38F5-D338-4047-A47B-10E8EB76D852}|Exam.Services.Identity.IntegrationTests\\Exam.Services.Identity.IntegrationTests.csproj|c:\\users\\hclun\\documents\\[x] projects\\services-identity\\exam.services.identity.integrationtests\\testbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CFAD38F5-D338-4047-A47B-10E8EB76D852}|Exam.Services.Identity.IntegrationTests\\Exam.Services.Identity.IntegrationTests.csproj|solutionrelative:exam.services.identity.integrationtests\\testbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,17 +22,43 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "TestBase.cs",
+              "DocumentMoniker": "C:\\Users\\hclun\\Documents\\[X] Projects\\services-identity\\Exam.Services.Identity.IntegrationTests\\TestBase.cs",
+              "RelativeDocumentMoniker": "Exam.Services.Identity.IntegrationTests\\TestBase.cs",
+              "ToolTip": "C:\\Users\\hclun\\Documents\\[X] Projects\\services-identity\\Exam.Services.Identity.IntegrationTests\\TestBase.cs",
+              "RelativeToolTip": "Exam.Services.Identity.IntegrationTests\\TestBase.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-21T09:19:03.385Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "TestBase.cs",
+              "DocumentMoniker": "C:\\Users\\hclun\\Documents\\[X] Projects\\services-identity\\Exam.Services.Identity.UnitTest\\TestBase.cs",
+              "RelativeDocumentMoniker": "Exam.Services.Identity.UnitTest\\TestBase.cs",
+              "ToolTip": "C:\\Users\\hclun\\Documents\\[X] Projects\\services-identity\\Exam.Services.Identity.UnitTest\\TestBase.cs",
+              "RelativeToolTip": "Exam.Services.Identity.UnitTest\\TestBase.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-21T09:11:50.577Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\hclun\\Documents\\[X] Projects\\services-identity\\Exam.Services.Identity\\Exam.Services.Identity\\Program.cs",
+              "DocumentMoniker": "C:\\Users\\hclun\\Documents\\[X] Projects\\services-identity\\Exam.Services.Identity\\Program.cs",
               "RelativeDocumentMoniker": "Exam.Services.Identity\\Program.cs",
-              "ToolTip": "C:\\Users\\hclun\\Documents\\[X] Projects\\services-identity\\Exam.Services.Identity\\Exam.Services.Identity\\Program.cs",
+              "ToolTip": "C:\\Users\\hclun\\Documents\\[X] Projects\\services-identity\\Exam.Services.Identity\\Program.cs",
               "RelativeToolTip": "Exam.Services.Identity\\Program.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAWAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-21T08:49:44.457Z",
               "EditorCaption": ""

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Exam.Services.Identity")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6014f077c54187cd4c3872b2be610e9d56f3ae5c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+87ad5ff89f1cd139b7a97bc20f807ea754b43891")]
 [assembly: System.Reflection.AssemblyProductAttribute("Exam.Services.Identity")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Exam.Services.Identity")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
