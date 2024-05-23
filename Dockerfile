@@ -7,17 +7,17 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["School.Services.Identity/School.Services.Identity.csproj", "School.Services.Identity/"]
-RUN dotnet restore "School.Services.Identity/School.Services.Identity.csproj"
+COPY ["Exam.Services.Identity/Exam.Services.Identity.csproj", "Exam.Services.Identity/"]
+RUN dotnet restore "Exam.Services.Identity/Exam.Services.Identity.csproj"
 COPY . .
-WORKDIR "/src/School.Services.Identity"
-RUN dotnet build "School.Services.Identity.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/Exam.Services.Identity"
+RUN dotnet build "Exam.Services.Identity.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "School.Services.Identity.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "Exam.Services.Identity.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "School.Services.Identity.dll"]
+ENTRYPOINT ["dotnet", "Exam.Services.Identity.dll"]

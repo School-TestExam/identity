@@ -1,3 +1,7 @@
-using Exam.Core;
+//using Exam.Core;
 
-ServiceHost.Run(args);
+//ServiceHost.Run(args);
+static void Main(string[] args)
+{
+
+}

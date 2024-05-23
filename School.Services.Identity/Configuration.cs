@@ -1,16 +1,16 @@
-﻿using Exam.Abstractions;
+﻿//using Exam.Abstractions;
 
-namespace School.Services.Identity;
+//namespace Exam.Services.Identity;
 
-public class Configuration : ServiceConfiguration
-{
-    public override void Configure(IApplicationBuilder builder)
-    {
+//public class Configuration : ServiceConfiguration
+//{
+//    public override void Configure(IApplicationBuilder builder)
+//    {
         
-    }
+//    }
 
-    public override void ConfigureServices(IServiceCollection services)
-    {
+//    public override void ConfigureServices(IServiceCollection services)
+//    {
         
-    }
-}
+//    }
+//}
