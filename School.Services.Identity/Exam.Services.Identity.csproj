@@ -9,10 +9,17 @@
 
     <ItemGroup>
       <PackageReference Include="Exam.Core" Version="0.0.2" />
+      <PackageReference Include="Exam.Core.Persistence" Version="0.0.2" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Exam.Models\Exam.Models.Identity.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="MigrationScripts\" />
+      <Folder Include="Migrations\" />
+      <Folder Include="Persistence\" />
     </ItemGroup>
 
 </Project>

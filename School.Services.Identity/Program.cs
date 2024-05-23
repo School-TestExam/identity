@@ -1,7 +1,3 @@
-//using Exam.Core;
+using Exam.Core;
 
-//ServiceHost.Run(args);
-static void Main(string[] args)
-{
-
-}
+ServiceHost.Run(args);
