@@ -1,12 +1,10 @@
-﻿using Exam.Core.Persistence.Models.Entities;
-
-namespace Exam.Models.Identity.Identity
+﻿namespace Exam.Models.Identity.Requests
 {
-    public class Identity// : EntityBase<Guid>
+    public class UpdateRequest
     {
         public Guid Id { get; set; }
         public string Email { get; set; }
-        public string Username {  get; set; }
+        public string Username { get; set; }
         public string Password { get; set; }
         public string FullName { get; set; }
     }

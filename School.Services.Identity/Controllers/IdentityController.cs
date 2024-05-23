@@ -1,6 +1,7 @@
-using Microsoft.AspNetCore.Mvc;
+using Exam.Models.Identity.Requests;
+using Exam.Models.Identity.Responses;
 using Exam.Services.Identity.Services;
-using IdentityModel = Exam.Models.Identity.Identity.Identity;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Exam.Services.Identity.Controllers
 {
@@ -8,42 +9,43 @@ namespace Exam.Services.Identity.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class IdentityController : ControllerBase
     {
-        private readonly IdentityService userService;
+        private readonly IdentityService _service;
+
         public IdentityController(IdentityService userService)
         {
-            this.userService = userService;
-        }
-
-        [HttpGet]
-        public async Task<ActionResult<IdentityModel>> GetIdentity([FromBody] Guid Id)
-        {
-            var identity = await userService.GetIdentity(Id);
-
-            return identity != null ? Ok(identity) : NotFound(identity);
-        }
-
-        [HttpDelete]
-        public async Task<ActionResult<IdentityModel>> DeleteIdentity([FromBody] Guid Id)
-        {
-            var deletionSuccess = await userService.DeleteIdentity(Id);
-
-            return deletionSuccess != false ? Ok(deletionSuccess) : NotFound(deletionSuccess);
-        }
-
-        [HttpPut]
-        public async Task<ActionResult<IdentityModel>> PutIdentity([FromBody] Guid Id, [FromQuery] IdentityModel identity)
-        {
-            var updatedIdentity = await userService.PutIdentity(Id, identity);
-
-            return updatedIdentity != null ? Ok(updatedIdentity) : NotFound(identity);
+            _service = userService;
         }
 
         [HttpPost]
-        public async Task<ActionResult<IdentityModel>> CreateIdentity([FromQuery] IdentityModel identity)
+        public async Task<ActionResult<GetResponse>> Create([FromQuery] CreateRequest request)
         {
-            var createdIdentity = await userService.CreateIdentity(identity);
+            var id = await _service.Create(request);
 
-            return createdIdentity != null ? Ok(createdIdentity) : BadRequest(identity);
+            return CreatedAtAction(nameof(Get), id);
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult> Delete([FromBody] Guid id)
+        {
+            await _service.Delete(id);
+
+            return Ok();
+        }
+
+        [HttpGet("identities")]
+        public async Task<ActionResult<GetResponse>> Get([FromBody] GetRequest request)
+        {
+            var response = await _service.Get(request);
+
+            return Ok(response);
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<GetResponse>> Update([FromQuery] UpdateRequest request)
+        {
+            await _service.Update(request);
+
+            return Ok();
         }
     }
 }
