@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Exam.Tools.Tests" Version="0.0.1-rc06-feature-1-initial-creation" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\School.Services.Identity\Exam.Services.Identity.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -66,15 +66,15 @@ namespace Exam.Services.Identity.Services
             return response;
         }
 
-        public async Task<GetResponse> Update(Guid id, UpdateRequest request)
+        public async Task<GetResponse> Update(UpdateRequest request)
         {
-            var entity = await _context.Identities.FirstOrDefaultAsync(x => x.Id == id);
+            var entity = await _context.Identities.FirstOrDefaultAsync(x => x.Id == request.Id);
             if (entity is null)
             {
                 return null;
             }
 
-            entity.Id = id;
+            entity.Id = request.Id;
             entity.FullName = request.FullName;
             entity.Username = request.Username;
             entity.Password = request.Password;

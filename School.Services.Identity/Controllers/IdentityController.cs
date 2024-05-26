@@ -45,9 +45,9 @@ namespace Exam.Services.Identity.Controllers
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<ActionResult<GetResponse>> Update(Guid id, [FromBody] UpdateRequest request)
+        public async Task<ActionResult<GetResponse>> Update([FromBody] UpdateRequest request)
         {
-            await _service.Update(id, request);
+            await _service.Update(request);
 
             return NoContent();
         }

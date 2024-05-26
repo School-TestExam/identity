@@ -10,6 +10,7 @@
     <ItemGroup>
       <PackageReference Include="Exam.Core" Version="0.0.2" />
       <PackageReference Include="Exam.Core.Persistence" Version="0.0.2" />
+      <PackageReference Include="Exam.Tools.Tests" Version="0.0.1-rc06-feature-1-initial-creation" />
     </ItemGroup>
 
     <ItemGroup>
