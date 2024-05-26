@@ -17,35 +17,39 @@ namespace Exam.Services.Identity.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<GetResponse>> Create([FromQuery] CreateRequest request)
+        public async Task<ActionResult<GetResponse>> Create([FromBody] CreateRequest request)
         {
             var id = await _service.Create(request);
 
             return CreatedAtAction(nameof(Get), id);
         }
 
-        [HttpDelete]
-        public async Task<ActionResult> Delete([FromBody] Guid id)
+        [HttpDelete("{id:guid}")]
+        public async Task<ActionResult> Delete( Guid id)
         {
             await _service.Delete(id);
 
-            return Ok();
+            return NoContent();
         }
 
-        [HttpGet("identities")]
-        public async Task<ActionResult<GetResponse>> Get([FromBody] GetRequest request)
+        [HttpGet("{id:guid}")]
+        public async Task<ActionResult<GetResponse>> Get(GetRequest request)
         {
             var response = await _service.Get(request);
+            if (response == null)
+            {
+                return NotFound();
+            }
 
             return Ok(response);
         }
 
-        [HttpPut]
-        public async Task<ActionResult<GetResponse>> Update([FromQuery] UpdateRequest request)
+        [HttpPut("{id:guid}")]
+        public async Task<ActionResult<GetResponse>> Update(Guid id, [FromBody] UpdateRequest request)
         {
-            await _service.Update(request);
+            await _service.Update(id, request);
 
-            return Ok();
+            return NoContent();
         }
     }
 }
