@@ -44,7 +44,7 @@ namespace Exam.Services.Identity.Services
         public async Task Delete(Guid id)
         {
             var entity = await _context.Identities.FirstOrDefaultAsync(x => x.Id == id);
-            
+
             if (entity is null)
             {
                 return;
@@ -61,19 +61,19 @@ namespace Exam.Services.Identity.Services
 
             if (entity is null)
             {
-                throw new($"Couldn't find entity with id: {id}");
+                return null;
             }
-            
+
             return entity.Adapt<IdentityDTO>();
         }
 
         public async Task<IdentityDTO> Update(Guid id, UpdateRequest request)
         {
             var entity = await _context.Identities.FirstOrDefaultAsync(x => x.Id == id);
-            
+
             if (entity is null)
             {
-                throw new($"Couldn't find entity with id: {id}");
+                return null;
             }
 
             request.Adapt(entity);
@@ -85,5 +85,35 @@ namespace Exam.Services.Identity.Services
 
             return entity.Adapt<IdentityDTO>();
         }
+
+        //public async Task<IdentityDTO> Get(Guid id)
+        //{
+        //    var entity = await _context.Identities.FirstOrDefaultAsync(x => x.Id == id);
+
+        //    if (entity is null)
+        //    {
+        //        throw new($"Couldn't find entity with id: {id}");
+        //    }
+
+        //    return entity.Adapt<IdentityDTO>();
+        //}
+        //public async Task<IdentityDTO> Update(Guid id, UpdateRequest request)
+        //{
+        //    var entity = await _context.Identities.FirstOrDefaultAsync(x => x.Id == id);
+
+        //    if (entity is null)
+        //    {
+        //        throw new Exception($"Couldn't find entity with id: {id}");
+        //    }
+
+        //    request.Adapt(entity);
+        //    entity.UpdatedAt = DateTime.Now;
+
+        //    _context.Identities.Update(entity);
+
+        //    await _context.SaveChangesAsync();
+
+        //    return entity.Adapt<IdentityDTO>();
+        //}
     }
 }

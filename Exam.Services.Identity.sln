@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exam.Models.Identity", "Exa
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{99A469AA-94F9-4F12-BD27-EC89E87303C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exam.Services.Identity.IntegrationTests", "Exam.Services.Identity.IntegrationTests\Exam.Services.Identity.IntegrationTests.csproj", "{37C7A1AE-E1BB-4DA4-8178-A841C7BD85AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exam.Services.Identity.IntegrationTests", "Exam.Services.Identity.IntegrationTests\Exam.Services.Identity.IntegrationTests.csproj", "{37C7A1AE-E1BB-4DA4-8178-A841C7BD85AE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exam.Services.Identity.UnitTests", "Exam.Services.Identity.UnitTests\Exam.Services.Identity.UnitTests.csproj", "{991002B7-049C-4C19-B59A-6BDD258F4CBC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,12 +37,17 @@ Global
 		{37C7A1AE-E1BB-4DA4-8178-A841C7BD85AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37C7A1AE-E1BB-4DA4-8178-A841C7BD85AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37C7A1AE-E1BB-4DA4-8178-A841C7BD85AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{991002B7-049C-4C19-B59A-6BDD258F4CBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{991002B7-049C-4C19-B59A-6BDD258F4CBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{991002B7-049C-4C19-B59A-6BDD258F4CBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{991002B7-049C-4C19-B59A-6BDD258F4CBC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{37C7A1AE-E1BB-4DA4-8178-A841C7BD85AE} = {99A469AA-94F9-4F12-BD27-EC89E87303C7}
+		{991002B7-049C-4C19-B59A-6BDD258F4CBC} = {99A469AA-94F9-4F12-BD27-EC89E87303C7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {47D849AD-4385-40F4-BD74-C5450C411947}

@@ -1,6 +1,5 @@
 using Exam.Models.Identity.DTO;
 using Exam.Models.Identity.Requests;
-using Exam.Models.Identity.Responses;
 using Exam.Services.Identity.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,8 +21,8 @@ namespace Exam.Services.Identity.Controllers
         public async Task<ActionResult<IdentityDTO>> Create([FromBody] CreateRequest request)
         {
             var dto = await _service.Create(request);
-            
-            return CreatedAtAction(nameof(Get), new {dto.Id}, dto);
+
+            return CreatedAtAction(nameof(Get), new { dto.Id }, dto);
         }
 
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -42,17 +41,16 @@ namespace Exam.Services.Identity.Controllers
         {
             var dto = await _service.Get(id);
 
-            return Ok(dto);
+            return dto is null ? NotFound() : Ok(dto);
         }
 
         [HttpPut("{id:guid}")]
-        [ProducesResponseType(typeof(GetResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IdentityDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IdentityDTO>> Update([FromRoute] Guid id, [FromBody] UpdateRequest request)
         {
-            var response = await _service.Update(id, request);
-            
-            return Ok(response);
+            var dto = await _service.Update(id, request);
+            return dto is null ? NotFound() : Ok(dto);
         }
     }
 }

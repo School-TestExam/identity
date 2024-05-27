@@ -1,11 +1,11 @@
-﻿using Exam.Models.Identity.Requests;
-using Exam.Models.Identity.Responses;
+﻿using Exam.Models.Identity.DTO;
+using Exam.Models.Identity.Requests;
+using Exam.Services.Identity.IntegrationTests.Setup;
 using Exam.Tools.Tests.Extensions;
 using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
 using System.Net.Http.Json;
-using Exam.Models.Identity.DTO;
-using Exam.Services.Identity.IntegrationTests.Setup;
 using Xunit;
 
 namespace Exam.Services.Identity.IntegrationTests.Controller;
@@ -26,7 +26,7 @@ public class IdentityControllerTests : TestBase
         const string email = "test@gmail.com";
         const string password = "SuperSecret";
         const string fullName = "Tester";
-        
+
         var request = new CreateRequest
         {
             Username = username,
@@ -35,7 +35,7 @@ public class IdentityControllerTests : TestBase
             Password = password,
         };
 
-        var expectation = new IdentityDTO
+        var expected = new IdentityDTO
         {
             Username = username,
             FullName = fullName,
@@ -48,186 +48,350 @@ public class IdentityControllerTests : TestBase
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Created);
 
-        var result = await response.ReadAsAsync<GetResponse>();
+        var result = await response.ReadAsAsync<IdentityDTO>();
 
-        result.Should().BeEquivalentTo(expectation, opt => opt.Excluding(x => x.Id));
+        result.Should().BeEquivalentTo(expected, opt => opt.Excluding(x => x.Id));
     }
 
-    //     [Fact]
-    //     public async Task Delete_IdentityExists_DeletesIdentity()
-    //     {
-    //         // Arrange
-    //         var id = Guid.NewGuid();
-    //         var url = $"{_basePath}/{id}";
-    //
-    //         var expected = new Models.Entities.Identity.Identity
-    //         {
-    //             Id = id,
-    //             Username = "Test",
-    //         };
-    //
-    //         _context.Identities.Add(expected);
-    //         await _context.SaveChangesAsync();
-    //
-    //         // Act
-    //         var response = await _client.DeleteAsync(url);
-    //
-    //         // Assert
-    //         response.StatusCode.Should().Be(HttpStatusCode.NoContent);
-    //
-    //         var result = await _context.Identities.FirstOrDefaultAsync(x => x.Id == id);
-    //         result.Should().BeNull();
-    //     }
-    //
-    //     [Fact]
-    //     public async Task Delete_WrongId_NoChanges()
-    //     {
-    //         // Arrange
-    //         var id = Guid.NewGuid();
-    //         var url = $"{_basePath}/{Guid.NewGuid()}";
-    //
-    //         var expected = new Models.Entities.Identity.Identity
-    //         {
-    //             Id = id,
-    //         };
-    //
-    //         _context.Identities.Add(expected);
-    //         await _context.SaveChangesAsync();
-    //
-    //         // Act
-    //         var response = await _client.DeleteAsync(url);
-    //
-    //         // Assert
-    //         var result = await _context.Identities.FirstOrDefaultAsync(x => x.Id == expected.Id);
-    //
-    //         response.StatusCode.Should().Be(HttpStatusCode.NoContent);
-    //         result.Should().NotBeNull();
-    //     }
-    //
-    //     [Fact]
-    //     public async Task Get_HasIdentity_ReturnsIdentity()
-    //     {
-    //         // Arrange
-    //         var id = Guid.NewGuid();
-    //         var url = $"{_basePath}/{id}";
-    //
-    //         const string expectedUsername = "Test";
-    //
-    //         var expected = new Models.Entities.Identity.Identity
-    //         {
-    //             Id = id,
-    //             Username = expectedUsername,
-    //         };
-    //
-    //         _context.Identities.Add(expected);
-    //         await _context.SaveChangesAsync();
-    //
-    //         // Act
-    //         var response = await _client.GetAsync(url);
-    //
-    //         // Assert
-    //         response.StatusCode.Should().Be(HttpStatusCode.OK);
-    //
-    //         var content = await response.Content.ReadAsStringAsync();
-    //         var result = JsonConvert.DeserializeObject<GetResponse>(content);
-    //         result.Username.Should().BeEquivalentTo(expectedUsername);
-    //     }
-    //
-    //     [Fact]
-    //     public async Task Get_WrongId_ReturnsNotFound()
-    //     {
-    //         // Arrange
-    //         var id = Guid.NewGuid();
-    //         var url = $"{_basePath}/{Guid.NewGuid()}";
-    //
-    //         var expected = new Models.Entities.Identity.Identity
-    //         {
-    //             Id = id,
-    //         };
-    //
-    //         _context.Identities.Add(expected);
-    //         await _context.SaveChangesAsync();
-    //
-    //         // Act
-    //         var response = await _client.GetAsync(url);
-    //
-    //         // Assert
-    //         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
-    //
-    //         var content = await response.Content.ReadAsStringAsync();
-    //         var result = JsonConvert.DeserializeObject<GetResponse>(content);
-    //         result.Should().BeNull();
-    //     }
-    //
-    //     [Fact]
-    //     public async Task Update_ExistingIdentity_UpdatesIdentity()
-    //     {
-    //         // Arrange
-    //         var id = Guid.NewGuid();
-    //         var url = $"{_basePath}/{id}";
-    //         var expectedUsername = "updated";
-    //
-    //         var identity = new Models.Entities.Identity.Identity
-    //         {
-    //             Id = id,
-    //             Username = "test",
-    //         };
-    //
-    //         _context.Identities.Add(identity);
-    //         await _context.SaveChangesAsync();
-    //
-    //         var request = new UpdateRequest
-    //         {
-    //             Id = id,
-    //             Username = expectedUsername
-    //         };
-    //
-    //         // Act
-    //         var response = await _client.PutAsJsonAsync(url, request);
-    //
-    //         // Assert
-    //         response.StatusCode.Should().Be(HttpStatusCode.NoContent);
-    //
-    //         var content = await response.Content.ReadAsStringAsync();
-    //         var result = JsonConvert.DeserializeObject<GetResponse>(content);
-    //         result.Username.Should().BeEquivalentTo(expectedUsername);
-    //     }
-    //
-    //     [Fact]
-    //     public async Task Update_WrondId_NoChanges()
-    //     {
-    //         // Arrange
-    //         var id = Guid.NewGuid();
-    //         var wrongId = Guid.NewGuid();
-    //         var url = $"{_basePath}/{wrongId}";
-    //         var expectedUsername = "test";
-    //
-    //         var identity = new Models.Entities.Identity.Identity
-    //         {
-    //             Id = id,
-    //             Username = expectedUsername,
-    //         };
-    //
-    //         _context.Identities.Add(identity);
-    //         await _context.SaveChangesAsync();
-    //
-    //         var request = new UpdateRequest
-    //         {
-    //             Id = wrongId,
-    //             Username = "updated"
-    //         };
-    //
-    //         // Act
-    //         var response = await _client.PutAsJsonAsync(url, request);
-    //
-    //         // Assert
-    //         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
-    //
+    [Fact]
+    public async Task Delete_IdentityExists_DeletesIdentity()
+    {
+        // Arrange
+        var id = Guid.NewGuid();
+        var url = $"{_basePath}/{id}";
 
+        var expected = new Models.Entities.Identity.Identity
+        {
+            Id = id,
+            Username = "Tester",
+            Email = "test@gmail.com",
+            Password = "SuperSecret",
+            FullName = "Tester",
+            CreatedBy = "SYSTEM",
+            LastUpdatedBy = "SYSTEM",
+        };
 
-    //         var databaseResult = await _context.Identities.FirstOrDefaultAsync(x => x.Id == id);
+        Context.Identities.Add(expected);
+        await Context.SaveChangesAsync();
 
-    //         databaseResult.Username.Should().BeEquivalentTo(expectedUsername);
+        // Act
+        var response = await Client.DeleteAsync(url);
 
-    //     }
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+
+        var result = await Context.Identities.FirstOrDefaultAsync(x => x.Id == id);
+        result.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task Delete_WrongId_NoChanges()
+    {
+        // Arrange
+        var id = Guid.NewGuid();
+        var wrongId = Guid.NewGuid();
+        var url = $"{_basePath}/{wrongId}";
+
+        const string username = "Tester";
+        const string email = "test@gmail.com";
+        const string password = "SuperSecret";
+        const string fullName = "Tester";
+
+        var entity = new Models.Entities.Identity.Identity
+        {
+            Id = id,
+            Username = username,
+            Email = email,
+            Password = password,
+            FullName = fullName,
+            CreatedBy = "SYSTEM",
+            LastUpdatedBy = "SYSTEM",
+        };
+
+        var expected = new IdentityDTO
+        {
+            Username = username,
+            FullName = fullName,
+            Email = email,
+            Id = id,
+        };
+
+        Context.Identities.Add(entity);
+        await Context.SaveChangesAsync();
+
+        // Act
+        var response = await Client.DeleteAsync(url);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+
+        var result = await Context.Identities.FirstOrDefaultAsync(x => x.Id == id);
+        result.Should().BeEquivalentTo(expected, opt => opt.ExcludingMissingMembers());
+    }
+
+    [Fact]
+    public async Task Get_HasIdentity_ReturnsIdentity()
+    {
+        // Arrange
+        var id = Guid.NewGuid();
+        var url = $"{_basePath}/{id}";
+
+        const string username = "Tester";
+        const string email = "test@gmail.com";
+        const string password = "SuperSecret";
+        const string fullName = "Tester";
+
+        var entity = new Models.Entities.Identity.Identity
+        {
+            Id = id,
+            Username = username,
+            Email = email,
+            Password = password,
+            FullName = fullName,
+            CreatedBy = "SYSTEM",
+            LastUpdatedBy = "SYSTEM",
+        };
+
+        var expected = new IdentityDTO
+        {
+            Username = username,
+            FullName = fullName,
+            Email = email,
+            Id = id
+        };
+
+        Context.Identities.Add(entity);
+        await Context.SaveChangesAsync();
+
+        // Act
+        var response = await Client.GetAsync(url);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var result = await response.ReadAsAsync<IdentityDTO>();
+        result.Should().BeEquivalentTo(expected);
+    }
+
+    [Fact]
+    public async Task Get_WrongId_ReturnsNotFound()
+    {
+        // Arrange
+        var id = Guid.NewGuid();
+        var wrongId = Guid.NewGuid();
+        var url = $"{_basePath}/{wrongId}";
+
+        const string username = "Tester";
+        const string email = "test@gmail.com";
+        const string password = "SuperSecret";
+        const string fullName = "Tester";
+
+        var entity = new Models.Entities.Identity.Identity
+        {
+            Id = id,
+            Username = username,
+            Email = email,
+            Password = password,
+            FullName = fullName,
+            CreatedBy = "SYSTEM",
+            LastUpdatedBy = "SYSTEM",
+        };
+
+        Context.Identities.Add(entity);
+        await Context.SaveChangesAsync();
+
+        // Act
+        var response = await Client.GetAsync(url);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task Update_ExistingIdentity_UpdatesIdentity()
+    {
+        // Arrange
+        var id = Guid.NewGuid();
+        var url = $"{_basePath}/{id}";
+
+        const string username = "Tester";
+        const string email = "test@gmail.com";
+        const string password = "SuperSecret";
+        const string fullName = "Tester";
+
+        var entity = new Models.Entities.Identity.Identity
+        {
+            Id = id,
+            Username = "WrongTester",
+            Email = "wrong@gmail.com",
+            Password = "NotSoSecret",
+            FullName = "WrongTester",
+            CreatedBy = "SYSTEM",
+            LastUpdatedBy = "SYSTEM",
+        };
+
+        var request = new UpdateRequest
+        {
+            Email = email,
+            FullName = fullName,
+            Username = username,
+            Password = password,
+        };
+
+        var expected = new IdentityDTO
+        {
+            Username = username,
+            FullName = fullName,
+            Email = email,
+            Id = id,
+        };
+
+        Context.Identities.Add(entity);
+        await Context.SaveChangesAsync();
+
+        // Act
+        var response = await Client.PutAsJsonAsync(url, request);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var result = await response.ReadAsAsync<IdentityDTO>();
+        result.Should().BeEquivalentTo(expected, opt => opt.ExcludingMissingMembers());
+    }
+
+    [Fact]
+    public async Task Update_WrongId_NoChangesAndReturnsNotFound()
+    {
+        // Arrange
+        var id = Guid.NewGuid();
+        var wrongId = Guid.NewGuid();
+        var url = $"{_basePath}/{wrongId}";
+
+        const string username = "Tester";
+        const string email = "test@gmail.com";
+        const string password = "SuperSecret";
+        const string fullName = "Tester";
+
+        var entity = new Models.Entities.Identity.Identity
+        {
+            Id = id,
+            Email = email,
+            FullName = fullName,
+            Username = username,
+            Password = password,
+            CreatedBy = "SYSTEM",
+            LastUpdatedBy = "SYSTEM",
+        };
+
+        var request = new UpdateRequest
+        {
+            Username = "WrongTester",
+            Email = "wrong@gmail.com",
+            Password = "NotSoSecret",
+            FullName = "WrongTester",
+        };
+
+        var expected = new IdentityDTO
+        {
+            Username = username,
+            FullName = fullName,
+            Email = email,
+            Id = id,
+        };
+
+        Context.Identities.Add(entity);
+        await Context.SaveChangesAsync();
+
+        // Act
+        var response = await Client.PutAsJsonAsync(url, request);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+
+        var dbResult = await Context.Identities.FirstOrDefaultAsync(x => x.Id == id);
+        dbResult.Should().BeEquivalentTo(expected, opt => opt.ExcludingMissingMembers());
+    }
+
+    //[Fact]
+    //public async Task Get_WrongId_ThrowsException()
+    //{
+    //    // Arrange
+    //    var id = Guid.NewGuid();
+    //    var wrongId = Guid.NewGuid();
+    //    var url = $"{_basePath}/{wrongId}";
+
+    //    const string username = "Tester";
+    //    const string email = "test@gmail.com";
+    //    const string password = "SuperSecret";
+    //    const string fullName = "Tester";
+
+    //    var entity = new Models.Entities.Identity.Identity
+    //    {
+    //        Id = id,
+    //        Username = username,
+    //        Email = email,
+    //        Password = password,
+    //        FullName = fullName,
+    //        CreatedBy = "SYSTEM",
+    //        LastUpdatedBy = "SYSTEM",
+    //    };
+
+    //    Context.Identities.Add(entity);
+    //    await Context.SaveChangesAsync();
+
+    //    // Act
+    //    var act = async () => await Client.GetAsync(url);
+
+    //    // Assert
+    //    await act.Should().ThrowAsync<Exception>();
+    //}
+    //[Fact]
+    //public async Task Update_WrongId_NoChangesAndThrowsException()
+    //{
+    //    // Arrange
+    //    var id = Guid.NewGuid();
+    //    var wrongId = Guid.NewGuid();
+    //    var url = $"{_basePath}/{wrongId}";
+
+    //    const string username = "Tester";
+    //    const string email = "test@gmail.com";
+    //    const string password = "SuperSecret";
+    //    const string fullName = "Tester";
+
+    //    var entity = new Models.Entities.Identity.Identity
+    //    {
+    //        Id = id,
+    //        Email = email,
+    //        FullName = fullName,
+    //        Username = username,
+    //        Password = password,
+    //        CreatedBy = "SYSTEM",
+    //        LastUpdatedBy = "SYSTEM",
+    //    };
+
+    //    var request = new UpdateRequest
+    //    {
+    //        Username = "WrongTester",
+    //        Email = "wrong@gmail.com",
+    //        Password = "NotSoSecret",
+    //        FullName = "WrongTester",
+    //    };
+
+    //    var expected = new IdentityDTO
+    //    {
+    //        Username = username,
+    //        FullName = fullName,
+    //        Email = email,
+    //        Id = id,
+    //    };
+
+    //    Context.Identities.Add(entity);
+    //    await Context.SaveChangesAsync();
+
+    //    // Act
+    //    var act = async () => await Client.PutAsJsonAsync(url, request);
+
+    //    // Assert
+    //    await act.Should().ThrowAsync<Exception>();
+    //}
 }
