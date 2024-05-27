@@ -1,5 +1,5 @@
+using Exam.Models.Identity.DTO;
 using Exam.Models.Identity.Requests;
-using Exam.Models.Identity.Responses;
 using Exam.Services.Identity.Persistence;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
@@ -8,13 +8,13 @@ namespace Exam.Services.Identity.Services
 {
     public interface IIdentityService
     {
-        public Task<Guid> Create(CreateRequest request);
+        public Task<IdentityDTO> Create(CreateRequest request);
 
         public Task Delete(Guid id);
 
-        public Task<GetResponse> Get(GetRequest request);
+        public Task<IdentityDTO> Get(Guid id);
 
-        public Task<GetResponse> Update(UpdateRequest request);
+        public Task<IdentityDTO> Update(Guid id, UpdateRequest request);
     }
 
     public class IdentityService : IIdentityService
@@ -26,27 +26,25 @@ namespace Exam.Services.Identity.Services
             _context = context;
         }
 
-        public async Task<Guid> Create(CreateRequest request)
+        public async Task<IdentityDTO> Create(CreateRequest request)
         {
-            if (string.IsNullOrEmpty(request.CreatedBy))
-            {
-                request.CreatedBy = "SYSTEM";
-            }
-
             var entity = request.Adapt<Models.Entities.Identity.Identity>();
 
             entity.CreatedAt = DateTime.Now;
+            entity.UpdatedAt = DateTime.Now;
+            entity.LastUpdatedBy = string.Empty;
 
             _context.Identities.Add(entity);
 
             await _context.SaveChangesAsync();
 
-            return entity.Id;
+            return entity.Adapt<IdentityDTO>();
         }
 
         public async Task Delete(Guid id)
         {
             var entity = await _context.Identities.FirstOrDefaultAsync(x => x.Id == id);
+            
             if (entity is null)
             {
                 return;
@@ -57,34 +55,35 @@ namespace Exam.Services.Identity.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<GetResponse> Get(GetRequest request)
+        public async Task<IdentityDTO> Get(Guid id)
         {
-            var entity = await _context.Identities.FirstOrDefaultAsync(x => x.Id == request.Id);
+            var entity = await _context.Identities.FirstOrDefaultAsync(x => x.Id == id);
 
-            var response = entity.Adapt<GetResponse>();
-
-            return response;
-        }
-
-        public async Task<GetResponse> Update(UpdateRequest request)
-        {
-            var entity = await _context.Identities.FirstOrDefaultAsync(x => x.Id == request.Id);
             if (entity is null)
             {
-                return null;
+                throw new($"Couldn't find entity with id: {id}");
+            }
+            
+            return entity.Adapt<IdentityDTO>();
+        }
+
+        public async Task<IdentityDTO> Update(Guid id, UpdateRequest request)
+        {
+            var entity = await _context.Identities.FirstOrDefaultAsync(x => x.Id == id);
+            
+            if (entity is null)
+            {
+                throw new($"Couldn't find entity with id: {id}");
             }
 
-            entity.Id = request.Id;
-            entity.FullName = request.FullName;
-            entity.Username = request.Username;
-            entity.Password = request.Password;
-            entity.Email = request.Email;
+            request.Adapt(entity);
+            entity.UpdatedAt = DateTime.Now;
+
+            _context.Identities.Update(entity);
 
             await _context.SaveChangesAsync();
 
-            var response = entity.Adapt<GetResponse>();
-
-            return response;
+            return entity.Adapt<IdentityDTO>();
         }
     }
 }

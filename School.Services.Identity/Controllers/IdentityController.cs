@@ -1,3 +1,4 @@
+using Exam.Models.Identity.DTO;
 using Exam.Models.Identity.Requests;
 using Exam.Models.Identity.Responses;
 using Exam.Services.Identity.Services;
@@ -16,49 +17,41 @@ namespace Exam.Services.Identity.Controllers
             _service = userService;
         }
 
-        [ProducesResponseType(typeof(GetResponse), StatusCodes.Status201Created)]
-        [HttpPost("identities")]
-        public async Task<ActionResult<GetResponse>> Create([FromBody] CreateRequest request)
+        [HttpPost]
+        [ProducesResponseType(typeof(IdentityDTO), StatusCodes.Status201Created)]
+        public async Task<ActionResult<IdentityDTO>> Create([FromBody] CreateRequest request)
         {
-            var id = await _service.Create(request);
-
-            return CreatedAtAction(nameof(Get), id);
+            var dto = await _service.Create(request);
+            
+            return CreatedAtAction(nameof(Get), new {dto.Id}, dto);
         }
 
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [HttpDelete("identities/{id}")]
-        public async Task<ActionResult> Delete([FromBody] Guid id)
+        [HttpDelete("{id:guid}")]
+        public async Task<ActionResult> Delete([FromRoute] Guid id)
         {
             await _service.Delete(id);
 
             return NoContent();
         }
 
-        [ProducesResponseType(typeof(GetResponse), StatusCodes.Status200OK)]
+        [HttpGet("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("identities/id")]
-        public async Task<ActionResult<GetResponse>> Get(GetRequest request)
+        [ProducesResponseType(typeof(IdentityDTO), StatusCodes.Status200OK)]
+        public async Task<ActionResult<IdentityDTO>> Get([FromRoute] Guid id)
         {
-            var response = await _service.Get(request);
-            if (response == null)
-            {
-                return NotFound();
-            }
+            var dto = await _service.Get(id);
 
-            return Ok(response);
+            return Ok(dto);
         }
 
+        [HttpPut("{id:guid}")]
         [ProducesResponseType(typeof(GetResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpPut("identities/id")]
-        public async Task<ActionResult<GetResponse>> Update([FromBody] UpdateRequest request)
+        public async Task<ActionResult<IdentityDTO>> Update([FromRoute] Guid id, [FromBody] UpdateRequest request)
         {
-            var response = await _service.Update(request);
-            if (response == null)
-            {
-                return NotFound();
-            }
-
+            var response = await _service.Update(id, request);
+            
             return Ok(response);
         }
     }
