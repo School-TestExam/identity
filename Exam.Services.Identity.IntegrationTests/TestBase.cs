@@ -4,6 +4,7 @@ using Xunit;
 
 namespace Exam.Services.Identity.IntegrationTests
 {
+    [Collection("mysql")]
     public class TestBase : IClassFixture<ApiWebApplicationFactory>, IDisposable
     {
         protected IdentityContext _context;
