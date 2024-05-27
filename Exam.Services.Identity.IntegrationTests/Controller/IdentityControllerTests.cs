@@ -1,27 +1,18 @@
-﻿using Exam.Models.Identity.Responses;
-using Exam.Services.Identity.Services;
-using Exam.Tools.Tests;
-using Newtonsoft.Json;
-using Xunit;
+﻿using Exam.Models.Identity.Requests;
+using Exam.Models.Identity.Responses;
 using FluentAssertions;
-using System.Net;
-using Exam.Services.Identity.Persistence;
 using Microsoft.EntityFrameworkCore;
-using Exam.Models.Identity.Requests;
+using Newtonsoft.Json;
+using System.Net;
 using System.Text;
+using Xunit;
 
 namespace Exam.Services.Identity.IntegrationTests.Controller
 {
     public class IdentityControllerTests : TestBase
     {
-        private readonly HttpClient _client;
-        private readonly IIdentityService _service;
-        private IdentityContext _context;
-
-        public IdentityControllerTests(IIdentityService service)
+        public IdentityControllerTests(ApiWebApplicationFactory webFactory) : base(webFactory)
         {
-            _service = service;
-            _client = new HttpClient();
         }
 
         [Fact]
