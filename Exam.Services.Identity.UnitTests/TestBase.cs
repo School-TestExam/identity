@@ -1,37 +1,21 @@
 ﻿using Exam.Services.Identity.Persistence;
-using Exam.Services.Identity.Services;
-using Exam.Tools.Tests;
 using Microsoft.EntityFrameworkCore;
 
 namespace Exam.Services.Identity.UnitTests
 {
-    public abstract class TestBase
+    public class TestBase
     {
-        //protected readonly IdentityContext _context;
+        protected readonly IdentityContext _context;
 
-        //protected TestBase()
-        //{
-        //    var options = new DbContextOptionsBuilder<IdentityContext>()
-        //        .UseInMemoryDatabase(databaseName: "InMemoryIdentityDb")
-        //        .Options;
+        public TestBase()
+        {
 
-        //    _context = new IdentityContext(options);
-        //    SeedDatabase(_context);
-        //}
+            var options = new DbContextOptionsBuilder()
+                .UseInMemoryDatabase(databaseName: $"identities-{Guid.NewGuid()}")
+                .UseLowerCaseNamingConvention()
+                .Options;
 
-        //private void SeedDatabase(IdentityContext context)
-        //{
-        //    // Add any seed data here if necessary
-        //    context.Identities.Add(new Models.Entities.Identity.Identity
-        //    {
-        //        // Initialize properties
-        //    });
-        //    context.SaveChanges();
-        //}
-
-        //protected IIdentityService CreateIdentityService()
-        //{
-        //    return new IdentityService(_context);
-        //}
+            _context = new(options);
+        }
     }
 }

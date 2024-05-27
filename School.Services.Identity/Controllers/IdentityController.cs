@@ -9,14 +9,15 @@ namespace Exam.Services.Identity.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class IdentityController : ControllerBase
     {
-        private readonly IdentityService _service;
+        private readonly IIdentityService _service;
 
-        public IdentityController(IdentityService userService)
+        public IdentityController(IIdentityService userService)
         {
             _service = userService;
         }
 
-        [HttpPost]
+        [ProducesResponseType(typeof(GetResponse), StatusCodes.Status201Created)]
+        [HttpPost("identities")]
         public async Task<ActionResult<GetResponse>> Create([FromBody] CreateRequest request)
         {
             var id = await _service.Create(request);
@@ -24,15 +25,18 @@ namespace Exam.Services.Identity.Controllers
             return CreatedAtAction(nameof(Get), id);
         }
 
-        [HttpDelete("{id:guid}")]
-        public async Task<ActionResult> Delete( Guid id)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [HttpDelete("identities/{id}")]
+        public async Task<ActionResult> Delete([FromBody] Guid id)
         {
             await _service.Delete(id);
 
             return NoContent();
         }
 
-        [HttpGet("{id:guid}")]
+        [ProducesResponseType(typeof(GetResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("identities/id")]
         public async Task<ActionResult<GetResponse>> Get(GetRequest request)
         {
             var response = await _service.Get(request);
@@ -44,12 +48,18 @@ namespace Exam.Services.Identity.Controllers
             return Ok(response);
         }
 
-        [HttpPut("{id:guid}")]
+        [ProducesResponseType(typeof(GetResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpPut("identities/id")]
         public async Task<ActionResult<GetResponse>> Update([FromBody] UpdateRequest request)
         {
-            await _service.Update(request);
+            var response = await _service.Update(request);
+            if (response == null)
+            {
+                return NotFound();
+            }
 
-            return NoContent();
+            return Ok(response);
         }
     }
 }

@@ -4,13 +4,15 @@ using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Net;
-using System.Text;
+using System.Net.Http.Json;
 using Xunit;
 
 namespace Exam.Services.Identity.IntegrationTests.Controller
 {
     public class IdentityControllerTests : TestBase
     {
+        private const string baseUrl = $"/api/v1/identities/";
+
         public IdentityControllerTests(ApiWebApplicationFactory webFactory) : base(webFactory)
         {
         }
@@ -21,48 +23,50 @@ namespace Exam.Services.Identity.IntegrationTests.Controller
             // Arrange
             var expected = new CreateRequest
             {
-                Username = "Test",
+                Username = "test",
+                Email = "test",
+                Password = "test",
+                FullName = "test",
+                CreatedBy = string.Empty,
             };
-            var json = JsonConvert.SerializeObject(expected);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var requestUri = $"/api/v1/Identity/";
 
             // Act
-            var response = await _client.PostAsync(requestUri, content);
-            response.EnsureSuccessStatusCode();
+            var response = await _client.PostAsJsonAsync(baseUrl, expected);
 
             // Assert
-            var result = await _context.Identities.FirstOrDefaultAsync(x => x.Username == expected.Username);
-
             response.StatusCode.Should().Be(HttpStatusCode.Created);
+
+            var content = await response.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeObject<GetResponse>(content);
             result.Username.Should().BeEquivalentTo(expected.Username);
-            result.CreatedBy.Should().BeEquivalentTo("SYSTEM");
+
+            var databaseResult = await _context.Identities.FirstOrDefaultAsync(x => x.Username == expected.Username);
+            databaseResult.CreatedBy.Should().BeEquivalentTo("SYSTEM");
         }
 
         [Fact]
         public async Task Delete_IdentityExists_DeletesIdentity()
         {
             // Arrange
+            var id = Guid.NewGuid();
+            var url = $"{baseUrl}/{id}";
+
             var expected = new Models.Entities.Identity.Identity
             {
-                Id = Guid.NewGuid(),
+                Id = id,
                 Username = "Test",
             };
 
             _context.Identities.Add(expected);
             await _context.SaveChangesAsync();
 
-            var requestUri = $"/api/v1/Identity/{expected.Id}";
-
             // Act
-            var response = await _client.DeleteAsync(requestUri);
-            response.EnsureSuccessStatusCode();
+            var response = await _client.DeleteAsync(url);
 
             // Assert
-            var result = await _context.Identities.FirstOrDefaultAsync(x => x.Id == expected.Id);
-
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+
+            var result = await _context.Identities.FirstOrDefaultAsync(x => x.Id == id);
             result.Should().BeNull();
         }
 
@@ -70,79 +74,79 @@ namespace Exam.Services.Identity.IntegrationTests.Controller
         public async Task Delete_WrongId_NoChanges()
         {
             // Arrange
+            var id = Guid.NewGuid();
+            var url = $"{baseUrl}/{Guid.NewGuid()}";
+
             var expected = new Models.Entities.Identity.Identity
             {
-                Id = Guid.NewGuid(),
-                Username = "Test",
+                Id = id,
             };
 
             _context.Identities.Add(expected);
             await _context.SaveChangesAsync();
 
-            var requestUri = $"/api/v1/Identity/{Guid.NewGuid()}";
-
             // Act
-            var response = await _client.DeleteAsync(requestUri);
-            response.EnsureSuccessStatusCode();
+            var response = await _client.DeleteAsync(url);
 
             // Assert
             var result = await _context.Identities.FirstOrDefaultAsync(x => x.Id == expected.Id);
 
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
-            result.Username.Should().BeEquivalentTo(expected.Username);
+            result.Should().NotBeNull();
         }
 
         [Fact]
         public async Task Get_HasIdentity_ReturnsIdentity()
         {
             // Arrange
+            var id = Guid.NewGuid();
+            var url = $"{baseUrl}/{id}";
+
+            const string expectedUsername = "Test";
+
             var expected = new Models.Entities.Identity.Identity
             {
-                Id = Guid.NewGuid(),
-                Username = "Test",
+                Id = id,
+                Username = expectedUsername,
             };
 
             _context.Identities.Add(expected);
             await _context.SaveChangesAsync();
 
-            var requestUri = $"/api/v1/Identity/{expected.Id}";
-
             // Act
-            var response = await _client.GetAsync(requestUri);
-            response.EnsureSuccessStatusCode();
+            var response = await _client.GetAsync(url);
 
             // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
             var content = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<GetResponse>(content);
-
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
-            result.Username.Should().BeEquivalentTo(expected.Username);
+            result.Username.Should().BeEquivalentTo(expectedUsername);
         }
 
         [Fact]
         public async Task Get_WrongId_ReturnsNotFound()
         {
             // Arrange
-            var identity = new Models.Entities.Identity.Identity
+            var id = Guid.NewGuid();
+            var url = $"{baseUrl}/{Guid.NewGuid()}";
+
+            var expected = new Models.Entities.Identity.Identity
             {
-                Id = Guid.NewGuid(),
-                Username = "Test",
+                Id = id,
             };
 
-            _context.Identities.Add(identity);
+            _context.Identities.Add(expected);
             await _context.SaveChangesAsync();
 
-            var requestUri = $"/api/v1/Identity/{Guid.NewGuid()}";
-
             // Act
-            var response = await _client.GetAsync(requestUri);
-            response.EnsureSuccessStatusCode();
+            var response = await _client.GetAsync(url);
 
             // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+
             var content = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<GetResponse>(content);
-
-            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
             result.Should().BeNull();
         }
 
@@ -150,72 +154,68 @@ namespace Exam.Services.Identity.IntegrationTests.Controller
         public async Task Update_ExistingIdentity_UpdatesIdentity()
         {
             // Arrange
+            var id = Guid.NewGuid();
+            var url = $"{baseUrl}/{id}";
+            var expectedUsername = "updated";
+
             var identity = new Models.Entities.Identity.Identity
             {
-                Id = Guid.NewGuid(),
-                Username = "Test",
+                Id = id,
+                Username = "test",
             };
 
             _context.Identities.Add(identity);
             await _context.SaveChangesAsync();
 
-            var expected = new UpdateRequest
+            var request = new UpdateRequest
             {
-                Id = identity.Id,
-                Username = "Updated"
+                Id = id,
+                Username = expectedUsername
             };
 
-            var json = JsonConvert.SerializeObject(expected);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var requestUri = $"/api/v1/Identity/{identity.Id}";
-
             // Act
-            var response = await _client.PutAsync(requestUri, content);
-            response.EnsureSuccessStatusCode();
+            var response = await _client.PutAsJsonAsync(url, request);
 
             // Assert
-            var result = await _context.Identities.FirstOrDefaultAsync(x => x.Username == expected.Username);
-
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
-            result.Username.Should().BeEquivalentTo(expected.Username);
-            result.Username.Should().NotBeEquivalentTo(identity.Username);
+
+            var content = await response.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeObject<GetResponse>(content);
+            result.Username.Should().BeEquivalentTo(expectedUsername);
         }
 
         [Fact]
         public async Task Update_WrondId_NoChanges()
         {
             // Arrange
-            var expected = new Models.Entities.Identity.Identity
+            var id = Guid.NewGuid();
+            var wrongId = Guid.NewGuid();
+            var url = $"{baseUrl}/{wrongId}";
+            var expectedUsername = "test";
+
+            var identity = new Models.Entities.Identity.Identity
             {
-                Id = Guid.NewGuid(),
-                Username = "Test",
+                Id = id,
+                Username = expectedUsername,
             };
 
-            _context.Identities.Add(expected);
+            _context.Identities.Add(identity);
             await _context.SaveChangesAsync();
 
             var request = new UpdateRequest
             {
-                Id = Guid.NewGuid(),
-                Username = "Updated"
+                Id = wrongId,
+                Username = "updated"
             };
 
-            var json = JsonConvert.SerializeObject(request);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var requestUri = $"/api/v1/Identity/{expected.Id}";
-
             // Act
-            var response = await _client.PutAsync(requestUri, content);
-            response.EnsureSuccessStatusCode();
+            var response = await _client.PutAsJsonAsync(url, request);
 
             // Assert
-            var result = await _context.Identities.FirstOrDefaultAsync(x => x.Username == expected.Username);
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
-            response.StatusCode.Should().Be(HttpStatusCode.NoContent);
-            result.Username.Should().BeEquivalentTo(expected.Username);
-            result.Username.Should().NotBeEquivalentTo(request.Username);
+            var databaseResult = await _context.Identities.FirstOrDefaultAsync(x => x.Id == id);
+            databaseResult.Username.Should().BeEquivalentTo(expectedUsername);
         }
     }
 }
