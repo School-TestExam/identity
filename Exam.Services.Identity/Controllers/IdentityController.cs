@@ -18,6 +18,7 @@ namespace Exam.Services.Identity.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(IdentityDTO), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(IdentityDTO), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<IdentityDTO>> Create([FromBody] CreateRequest request)
         {
             var dto = await _service.Create(request);
@@ -25,8 +26,9 @@ namespace Exam.Services.Identity.Controllers
             return CreatedAtAction(nameof(Get), new { dto.Id }, dto);
         }
 
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [HttpDelete("{id:guid}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Delete([FromRoute] Guid id)
         {
             await _service.Delete(id);
@@ -35,8 +37,8 @@ namespace Exam.Services.Identity.Controllers
         }
 
         [HttpGet("{id:guid}")]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(IdentityDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IdentityDTO>> Get([FromRoute] Guid id)
         {
             var dto = await _service.Get(id);
