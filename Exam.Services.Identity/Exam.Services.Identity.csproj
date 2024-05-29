@@ -8,7 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Exam.Core" Version="0.0.3-rc03-feature-6-create-exceptionfilter" />
+      <PackageReference Include="Exam.Core" Version="0.0.3" />
       <PackageReference Include="Exam.Core.Persistence" Version="0.0.2" />
     </ItemGroup>
 
