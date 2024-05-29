@@ -11,9 +11,9 @@ namespace Exam.Services.Identity.Controllers
     {
         private readonly IIdentityService _service;
 
-        public IdentityController(IIdentityService userService)
+        public IdentityController(IIdentityService identityService)
         {
-            _service = userService;
+            _service = identityService;
         }
 
         [HttpPost]
@@ -41,7 +41,7 @@ namespace Exam.Services.Identity.Controllers
         {
             var dto = await _service.Get(id);
 
-            return dto is null ? NotFound() : Ok(dto);
+            return Ok(dto);
         }
 
         [HttpPut("{id:guid}")]
@@ -50,7 +50,7 @@ namespace Exam.Services.Identity.Controllers
         public async Task<ActionResult<IdentityDTO>> Update([FromRoute] Guid id, [FromBody] UpdateRequest request)
         {
             var dto = await _service.Update(id, request);
-            return dto is null ? NotFound() : Ok(dto);
+            return Ok(dto);
         }
     }
 }

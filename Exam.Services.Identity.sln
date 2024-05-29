@@ -3,15 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34607.119
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exam.Services.Identity", "School.Services.Identity\Exam.Services.Identity.csproj", "{5CF09CC9-1EA7-40A2-A7CD-E870128B881F}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6D42BD69-6C1A-46D0-B689-03A616DC6BF2}"
 	ProjectSection(SolutionItems) = preProject
 		.dockerignore = .dockerignore
 		NuGet.Config = NuGet.Config
 	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exam.Models.Identity", "Exam.Models\Exam.Models.Identity.csproj", "{D95E74E8-F810-4892-ACB3-27E6A59B3573}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{99A469AA-94F9-4F12-BD27-EC89E87303C7}"
 EndProject
@@ -19,20 +15,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exam.Services.Identity.Inte
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exam.Services.Identity.UnitTests", "Exam.Services.Identity.UnitTests\Exam.Services.Identity.UnitTests.csproj", "{991002B7-049C-4C19-B59A-6BDD258F4CBC}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exam.Services.Identity", "Exam.Services.Identity\Exam.Services.Identity.csproj", "{A93C569E-E740-4FC0-BE1F-20A773BF9430}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exam.Models", "Exam.Models\Exam.Models.csproj", "{C83EF2EB-609B-413A-8FED-66C80F3FBD5B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5CF09CC9-1EA7-40A2-A7CD-E870128B881F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5CF09CC9-1EA7-40A2-A7CD-E870128B881F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5CF09CC9-1EA7-40A2-A7CD-E870128B881F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5CF09CC9-1EA7-40A2-A7CD-E870128B881F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D95E74E8-F810-4892-ACB3-27E6A59B3573}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D95E74E8-F810-4892-ACB3-27E6A59B3573}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D95E74E8-F810-4892-ACB3-27E6A59B3573}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D95E74E8-F810-4892-ACB3-27E6A59B3573}.Release|Any CPU.Build.0 = Release|Any CPU
 		{37C7A1AE-E1BB-4DA4-8178-A841C7BD85AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{37C7A1AE-E1BB-4DA4-8178-A841C7BD85AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37C7A1AE-E1BB-4DA4-8178-A841C7BD85AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -41,6 +33,14 @@ Global
 		{991002B7-049C-4C19-B59A-6BDD258F4CBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{991002B7-049C-4C19-B59A-6BDD258F4CBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{991002B7-049C-4C19-B59A-6BDD258F4CBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A93C569E-E740-4FC0-BE1F-20A773BF9430}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A93C569E-E740-4FC0-BE1F-20A773BF9430}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A93C569E-E740-4FC0-BE1F-20A773BF9430}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A93C569E-E740-4FC0-BE1F-20A773BF9430}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C83EF2EB-609B-413A-8FED-66C80F3FBD5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C83EF2EB-609B-413A-8FED-66C80F3FBD5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C83EF2EB-609B-413A-8FED-66C80F3FBD5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C83EF2EB-609B-413A-8FED-66C80F3FBD5B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

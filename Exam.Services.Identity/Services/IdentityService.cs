@@ -1,3 +1,4 @@
+using Exam.Abstractions.Exceptions;
 using Exam.Models.Identity.DTO;
 using Exam.Models.Identity.Requests;
 using Exam.Services.Identity.Persistence;
@@ -47,7 +48,7 @@ namespace Exam.Services.Identity.Services
 
             if (entity is null)
             {
-                return;
+                throw new NotFoundException($"Couldn't find entity with id: {id}");
             }
 
             _context.Identities.Remove(entity);
@@ -61,7 +62,7 @@ namespace Exam.Services.Identity.Services
 
             if (entity is null)
             {
-                return null;
+                throw new NotFoundException($"Couldn't find entity with id: {id}");
             }
 
             return entity.Adapt<IdentityDTO>();
@@ -73,7 +74,7 @@ namespace Exam.Services.Identity.Services
 
             if (entity is null)
             {
-                return null;
+                throw new NotFoundException($"Couldn't find entity with id: {id}");
             }
 
             request.Adapt(entity);
@@ -85,35 +86,5 @@ namespace Exam.Services.Identity.Services
 
             return entity.Adapt<IdentityDTO>();
         }
-
-        //public async Task<IdentityDTO> Get(Guid id)
-        //{
-        //    var entity = await _context.Identities.FirstOrDefaultAsync(x => x.Id == id);
-
-        //    if (entity is null)
-        //    {
-        //        throw new($"Couldn't find entity with id: {id}");
-        //    }
-
-        //    return entity.Adapt<IdentityDTO>();
-        //}
-        //public async Task<IdentityDTO> Update(Guid id, UpdateRequest request)
-        //{
-        //    var entity = await _context.Identities.FirstOrDefaultAsync(x => x.Id == id);
-
-        //    if (entity is null)
-        //    {
-        //        throw new Exception($"Couldn't find entity with id: {id}");
-        //    }
-
-        //    request.Adapt(entity);
-        //    entity.UpdatedAt = DateTime.Now;
-
-        //    _context.Identities.Update(entity);
-
-        //    await _context.SaveChangesAsync();
-
-        //    return entity.Adapt<IdentityDTO>();
-        //}
     }
 }
