@@ -1,0 +1,21 @@
+name: Publish image
+on:
+  push:
+    branches: ['main']
+  pull_request:
+    branches: ['main']
+    
+permissions:
+  contents: write
+  pull-requests: write
+  statuses: write
+  packages: write
+  checks: write
+  
+jobs:
+  build:
+    uses: School-TestExam/core-pipelines/.github/workflows/dotnet-image-generation.yaml@main
+    secrets: inherit
+    with:
+      repository: "School-TestExam/identity"
+      project: "Exam.Services.Identity"
