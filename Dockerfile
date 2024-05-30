@@ -1,23 +1,23 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER $APP_UID
-WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
-
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-ARG BUILD_CONFIGURATION=Release
+﻿FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+ARG version
+ARG NUGET_USERNAME
+ARG NUGET_TOKEN
 WORKDIR /src
-COPY ["School.Services.Identity/School.Services.Identity.csproj", "School.Services.Identity/"]
-RUN dotnet restore "School.Services.Identity/School.Services.Identity.csproj"
+
+COPY ["Exam.Services.Identity/Exam.Services.Identity.csproj", "Exam.Services.Identity/"]
+COPY ["NuGet.config", "Exam.Services.Identity/"]
+
+RUN dotnet restore "Exam.Services.Identity/Exam.Services.Identity.csproj" --configfile Exam.Services.Identity/NuGet.config
+
 COPY . .
-WORKDIR "/src/School.Services.Identity"
-RUN dotnet build "School.Services.Identity.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "School.Services.Identity.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "Exam.Services.Identity/Exam.Services.Identity.csproj" -c Release -o out /p:Version=$version
 
-FROM base AS final
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 
 WORKDIR /app
-COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "School.Services.Identity.dll"]
+
+EXPOSE 80
+EXPOSE 443
+
+COPY --from=build /src/out .
+ENTRYPOINT ["dotnet", "Exam.Services.Identity.dll"]
