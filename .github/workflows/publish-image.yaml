@@ -14,8 +14,8 @@ permissions:
   
 jobs:
   build:
-    uses: School-TestExam/core-pipelines/.github/workflows/dotnet-image-generation.yaml@feature/11-githubimage-workflow
+    uses: School-TestExam/core-pipelines/.github/workflows/dotnet-image-publish.yaml@feature/11-githubimage-workflow
     secrets: inherit
     with:
-      repository: "School-TestExam/services-identity"
+      repository: "Hoberg/services-identity"
       project: "Exam.Services.Identity"
